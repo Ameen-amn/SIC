@@ -16,8 +16,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Uint8List? image;
+  String? feel;
   final String motto = """Discover the power of emotion recognition.
 Upload your photo and let our AI reveal your true feelings. """;
+  List<String> models = ["Reg ex", "Gen Ai"];
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
@@ -27,10 +29,13 @@ Upload your photo and let our AI reveal your true feelings. """;
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
+            child: 
+            feel ==null?
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                
                 Image.asset("assets/Innov8.png", height: 100, width: 250),
                 const SizedBox(height: 20),
                 Padding(
@@ -40,23 +45,42 @@ Upload your photo and let our AI reveal your true feelings. """;
                 const SizedBox(height: 45),
                 if (image != null)
                   Container(
-                    width: width - (width / 5),
-                    height: height - (height / 5),
                     margin: EdgeInsets.symmetric(
                         horizontal: width > 800 ? 100 : 50),
-                    child: Image.memory(image!),
+                    child: Image.memory(
+                      image!,
+                      fit: BoxFit.cover
+                    ),
                   ),
-                SvgPicture.asset("face.svg", height: 150, width: 150),
+                if (image != null)
+                  DropdownButton(
+                      value: models.first,
+                      items: models
+                          .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .toList(),
+                      onChanged: (_) {}),
+                if (image == null)
+                  SvgPicture.asset("face.svg", height: 150, width: 150),
                 const SizedBox(height: 30),
                 ElevatedButton(
                     style: CustomButtonStyle.elevatedButtonStyle,
                     onPressed: () async {
-                      image = await pickImage();
+                      if (image == null) {
+                        image = await pickImage();
+                      } else {}
                       setState(() {});
                     },
-                    child: const Text("Uplaod Image"))
+                    child:
+                        Text(image == null ? "Uplaod Image" : "Detect Emotion"))
               ],
-            ),
+            ):
+            Column(
+              children: [
+                Text( " Based on analysis, you eeem to feel"),
+                // Text(data)
+              ],
+            )
           ),
         ),
       ),
@@ -69,3 +93,4 @@ Upload your photo and let our AI reveal your true feelings. """;
     return image?.readAsBytes();
   }
 }
+
