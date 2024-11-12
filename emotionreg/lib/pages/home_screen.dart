@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:emotionreg/data/model/enum.dart';
 import 'package:emotionreg/pages/styles/button_style.dart';
 import 'package:emotionreg/pages/widgets/typing_animation_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,65 +24,61 @@ Upload your photo and let our AI reveal your true feelings. """;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: const Color(0xfff0f0ee),,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: 
-            feel ==null?
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                
-                Image.asset("assets/Innov8.png", height: 100, width: 250),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: TypingTextAnimationWithCursor(text: motto),
-                ),
-                const SizedBox(height: 45),
-                if (image != null)
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: width > 800 ? 100 : 50),
-                    child: Image.memory(
-                      image!,
-                      fit: BoxFit.cover
-                    ),
-                  ),
-                if (image != null)
-                  DropdownButton(
-                      value: models.first,
-                      items: models
-                          .map(
-                              (e) => DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (_) {}),
-                if (image == null)
-                  SvgPicture.asset("face.svg", height: 150, width: 150),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                    style: CustomButtonStyle.elevatedButtonStyle,
-                    onPressed: () async {
-                      if (image == null) {
-                        image = await pickImage();
-                      } else {}
-                      setState(() {});
-                    },
-                    child:
-                        Text(image == null ? "Uplaod Image" : "Detect Emotion"))
-              ],
-            ):
-            Column(
-              children: [
-                Text( " Based on analysis, you eeem to feel"),
-                // Text(data)
-              ],
-            )
-          ),
+              child: feel == null
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/Innov8.png",
+                            height: 100, width: 250),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TypingTextAnimationWithCursor(text: motto),
+                        ),
+                        const SizedBox(height: 45),
+                        if (image != null)
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: width > 800 ? 100 : 50),
+                            child: Image.memory(image!, fit: BoxFit.cover),
+                          ),
+                        if (image != null)
+                          DropdownButton(
+                              value: models.first,
+                              items: models
+                                  .map((e) => DropdownMenuItem(
+                                      value: e, child: Text(e)))
+                                  .toList(),
+                              onChanged: (_) {}),
+                        if (image == null)
+                          SvgPicture.asset("face.svg", height: 150, width: 150),
+                        const SizedBox(height: 30),
+                        ElevatedButton(
+                            style: CustomButtonStyle.elevatedButtonStyle,
+                            onPressed: () async {
+                              if (image == null) {
+                                image = await pickImage();
+                              } else {}
+                              setState(() {});
+                            },
+                            child: Text(image == null
+                                ? "Uplaod Image"
+                                : "Detect Emotion")),
+                        Image.asset(Feel.sad.image)
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        const Text(" Based on analysis, you eeem to feel"),
+                        Image.asset(Feel.happy.image)
+                      ],
+                    )),
         ),
       ),
     );
@@ -93,4 +90,3 @@ Upload your photo and let our AI reveal your true feelings. """;
     return image?.readAsBytes();
   }
 }
-

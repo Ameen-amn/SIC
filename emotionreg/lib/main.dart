@@ -14,13 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Emotion Recognition from Facial Expression',
       theme: ThemeData(
-       scaffoldBackgroundColor: Color(0xfff0f0ee),
+        scaffoldBackgroundColor: const Color(0xfff0f0ee),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       routes: {
         "/": (_) => const HomeScreen(),
-        HomeScreen.homeScreen: (_) =>  HomeScreen(),
+        HomeScreen.homeScreen: (_) => const HomeScreen(),
       },
     );
   }
